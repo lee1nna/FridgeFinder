@@ -7,6 +7,7 @@ import avocado from "../assets/icon/avocado.png";
 import eggplant from "../assets/icon/eggplant.png";
 import { useEffect, useState } from "react";
 import Icon from "../components/Icon";
+import Menus from "../components/Menus";
 
 const FridgeContainer = styled.div`
   display: flex;
@@ -31,12 +32,13 @@ const FridgeTop = styled(commonFridge)`
 `;
 
 const FridgeBottom = styled(commonFridge)`
+  cursor: pointer;
   border-radius: 5px 5px 25px 25px;
   height: 60%;
   justify-content: space-between;
 `;
 
-const Text = styled.span`
+const Title = styled.span`
   position: relative;
   display: block;
   margin: 0;
@@ -46,6 +48,14 @@ const Text = styled.span`
   @media (max-width: 400px) {
     font-size: 35px;
   }
+`;
+
+const Text = styled.span`
+  position: absolute;
+  color: #ebebeb;
+  cursor: pointer;
+  font-size: 30px;
+  left: calc(50% - 35px);
 `;
 
 const Grib = styled.div`
@@ -95,6 +105,8 @@ const Home = () => {
     },
   ]);
 
+  const [menuIsActive, setMenuIsActive] = useState(false);
+
   useEffect(() => {
     let seconds = 0;
 
@@ -140,10 +152,12 @@ const Home = () => {
               />
             );
           })}
-          <Text>냉장고 털기</Text>
+          <Title>냉장고 털기</Title>
         </FridgeTop>
-        <FridgeBottom>
-          <Grib />
+        <FridgeBottom onClick={() => setMenuIsActive(true)}>
+          {!menuIsActive && <Text>Open</Text>}
+          {!menuIsActive && <Grib />}
+          {menuIsActive && <Menus />}
         </FridgeBottom>
       </FridgeContainer>
     </Wrapper>
