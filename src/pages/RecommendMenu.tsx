@@ -3,6 +3,7 @@ import Wrapper from "../components/Wrapper";
 import Step1 from "../components/Step1";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Step2 from "../components/Step2";
 
 const ButtonWrapper = styled.div<{ step: number }>`
   position: absolute;
@@ -65,7 +66,7 @@ const RecommendMenu = () => {
   return (
     <Wrapper>
       {step === 1 && <Step1 />}
-      {/* {step === 2 && <Step2 />} */}
+      {step === 2 && <Step2 />}
       <ButtonWrapper step={step}>
         {step < 4 && (
           <StepButton backgroundColor="#ff6f6f" onClick={goPrevPage}>

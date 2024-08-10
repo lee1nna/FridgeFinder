@@ -1,12 +1,14 @@
 import styled from "styled-components";
 
-const QuestionText = styled.h3``;
+const QuestionText = styled.h3`
+  line-height: 25px;
+`;
 
 const RecipeItem = styled.div`
   background-color: #ff8c00;
   border-radius: 20px;
   color: #fff;
-  padding: 20px;
+  padding: 15px;
   margin-top: 20px;
   cursor: pointer;
 `;
@@ -19,7 +21,7 @@ const Step1 = () => {
   return (
     <>
       <QuestionText>
-        만들어 먹을 요리의 종류를 선택해주세요.
+        만들어 먹을 요리의 종류를 <br /> 선택해주세요.
         {recipeKind.map((recipe, idx) => {
           return <RecipeItem key={idx}>{recipe}</RecipeItem>;
         })}
