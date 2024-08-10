@@ -6,7 +6,7 @@ const MenuWrapper = styled.div`
   height: 100%;
 `;
 
-const Ul = styled.ul`
+const MenuList = styled.ul`
   padding: 10px;
   height: calc(100% - 20px);
   margin: 0px;
@@ -17,8 +17,8 @@ const Ul = styled.ul`
   gap: 15px;
 `;
 
-const Menu = styled.li<{ isOpen: boolean }>`
-  cursor: ${(props) => (props.isOpen ? "cursor" : "default")};
+const MenuItem = styled.li<{ isOpen: boolean }>`
+  cursor: ${(props) => (props.isOpen ? "pointer" : "default")};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,8 +32,14 @@ const Menu = styled.li<{ isOpen: boolean }>`
   color: ${(props) => (props.isOpen ? "#333" : "#cfcfcf")};
 `;
 
+type Menu = {
+  id: number;
+  name: string;
+  isOpen: boolean;
+};
+
 const Menus = () => {
-  const menuList = [
+  const menuList: Menu[] = [
     { id: 1, name: "냉장고 재료로 레시피 추천받기", isOpen: true },
     { id: 2, name: "주간식단 추천받기", isOpen: true },
     { id: 3, name: "보관된 레시피 보기", isOpen: false },
@@ -41,16 +47,16 @@ const Menus = () => {
 
   return (
     <MenuWrapper>
-      <Ul>
-        {menuList.map((menu, idx) => {
+      <MenuList>
+        {menuList.map((menu) => {
           return (
-            <Menu key={idx} isOpen={menu.isOpen}>
+            <MenuItem key={menu.id} isOpen={menu.isOpen}>
               {menu.name}
               {!menu.isOpen && "(준비중)"}
-            </Menu>
+            </MenuItem>
           );
         })}
-      </Ul>
+      </MenuList>
     </MenuWrapper>
   );
 };
