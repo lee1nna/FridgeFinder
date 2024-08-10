@@ -15,26 +15,24 @@ const FridgeContainer = styled.div`
   height: 100%;
 `;
 
-const FridgeTop = styled.div`
-  position: relative;
+const commonFridge = styled.div`
   background-color: #9cc5a0;
-  padding: 0 15px;
   border: 3px solid #333;
-  border-radius: 25px 25px 5px 5px;
-  height: 40%;
+  padding: 0 15px;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-const FridgeBottom = styled.div`
-  background-color: #9cc5a0;
-  border: 3px solid #333;
+const FridgeTop = styled(commonFridge)`
+  position: relative;
+  border-radius: 25px 25px 5px 5px;
+  height: 40%;
+`;
+
+const FridgeBottom = styled(commonFridge)`
   border-radius: 5px 5px 25px 25px;
   height: 60%;
-  padding: 0 15px;
-  display: flex;
-  align-items: center;
   justify-content: space-between;
 `;
 
