@@ -1,5 +1,7 @@
+import Wrapper from "../components/Wrapper";
+
 const Home = () => {
-  return <div>Home</div>;
+  return <Wrapper>Home</Wrapper>;
 };
 
 export default Home;
