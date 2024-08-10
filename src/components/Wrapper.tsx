@@ -5,6 +5,7 @@ type WrapperProps = {
 };
 
 const Wrap = styled.div`
+  position: relative;
   width: 100%;
   max-width: 400px;
   background-color: #f5f5dc;

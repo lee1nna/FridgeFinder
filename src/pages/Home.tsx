@@ -17,7 +17,7 @@ const FridgeContainer = styled.div`
 `;
 
 const commonFridge = styled.div`
-  background-color: #9cc5a0;
+  background-color: #ffcc99;
   border: 3px solid #333;
   padding: 0 15px;
   display: flex;

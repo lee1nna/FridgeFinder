@@ -1,7 +1,7 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const MenuWrapper = styled.div`
-  /* background-color: #fff; */
   width: 100%;
   height: 100%;
 `;
@@ -18,7 +18,6 @@ const MenuList = styled.ul`
 `;
 
 const MenuItem = styled.li<{ isOpen: boolean }>`
-  cursor: ${(props) => (props.isOpen ? "pointer" : "default")};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,23 +25,43 @@ const MenuItem = styled.li<{ isOpen: boolean }>`
   width: 100%;
   height: 33%;
   border-radius: 20px;
-  border: 2px solid ${(props) => (props.isOpen ? "#333" : "#d0d0d0")};
-  background-color: #fff;
+  /* border: 2px solid ${(props) => (props.isOpen ? "#fff" : "#d0d0d0")}; */
+  background-color: #ff8c00;
   font-size: 18px;
-  color: ${(props) => (props.isOpen ? "#333" : "#cfcfcf")};
+`;
+
+const StyledLink = styled(Link)<{ isOpen: boolean }>`
+  cursor: ${(props) => (props.isOpen ? "pointer" : "default")};
+  color: ${(props) => (props.isOpen ? "#fff" : "#cfcfcf")};
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 type Menu = {
   id: number;
   name: string;
   isOpen: boolean;
+  url: string;
 };
 
 const Menus = () => {
   const menuList: Menu[] = [
-    { id: 1, name: "냉장고 재료로 레시피 추천받기", isOpen: true },
-    { id: 2, name: "주간식단 추천받기", isOpen: true },
-    { id: 3, name: "보관된 레시피 보기", isOpen: false },
+    {
+      id: 1,
+      name: "냉장고 재료로 레시피 추천받기",
+      isOpen: true,
+      url: "/recommend-menu",
+    },
+    { id: 2, name: "주간식단 추천받기", isOpen: true, url: "/recommend-diet" },
+    {
+      id: 3,
+      name: "보관된 레시피 보기",
+      isOpen: false,
+      url: "/favorite-recipex",
+    },
   ];
 
   return (
@@ -51,8 +70,10 @@ const Menus = () => {
         {menuList.map((menu) => {
           return (
             <MenuItem key={menu.id} isOpen={menu.isOpen}>
-              {menu.name}
-              {!menu.isOpen && "(준비중)"}
+              <StyledLink to={menu.url} isOpen={menu.isOpen}>
+                {menu.name}
+                {!menu.isOpen && "(준비중)"}
+              </StyledLink>
             </MenuItem>
           );
         })}
