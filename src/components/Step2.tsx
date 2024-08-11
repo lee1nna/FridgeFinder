@@ -1,4 +1,11 @@
 import styled from "styled-components";
+import { UserContext } from "../context/UserContext";
+import {
+  ChangeEvent,
+  ReactElement,
+  ReactEventHandler,
+  useContext,
+} from "react";
 
 const QuestionText = styled.h3`
   line-height: 25px;
@@ -18,6 +25,18 @@ const Input = styled.input`
 `;
 
 const Step2 = () => {
+  const userContext = useContext(UserContext);
+  const { mainIngredient, setUserInfo } = userContext;
+
+  const changeIngrdient = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserInfo((prev) => {
+      return {
+        ...prev,
+        mainIngredient: e.target.value,
+      };
+    });
+  };
+
   return (
     <>
       <QuestionText>
@@ -26,7 +45,9 @@ const Step2 = () => {
           재료명에 오타가 있을 경우 <br /> 정확한 추천이 어려울 수 있습니다 🥲
         </WarningText>
       </QuestionText>
-      <Input></Input>
+      <Input
+        onChange={(e: ChangeEvent<HTMLInputElement>) => changeIngrdient(e)}
+      ></Input>
     </>
   );
 };
