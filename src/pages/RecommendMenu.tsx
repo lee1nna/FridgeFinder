@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Step2 from "../components/Step2";
 import { UserContext } from "../context/UserContext";
+import Step3 from "../components/Step3";
 
 const ButtonWrapper = styled.div<{ step: number }>`
   position: absolute;
@@ -88,6 +89,7 @@ const RecommendMenu = () => {
     <Wrapper>
       {step === 1 && <Step1 />}
       {step === 2 && <Step2 />}
+      {step === 3 && <Step3 />}
       <ButtonWrapper step={step}>
         {step < 3 && (
           <StepButton
