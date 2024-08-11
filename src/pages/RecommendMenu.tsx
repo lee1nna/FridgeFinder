@@ -18,7 +18,7 @@ const StepButton = styled.button<{
   backgroundColor: string;
   disabled?: boolean;
 }>`
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? "default" : "pointer")};
   font-size: 16px;
   color: ${(props) => (props.disabled ? "#666" : "#fff")};
   border: 0;
@@ -57,7 +57,14 @@ const RecommendMenu = () => {
   };
 
   const goNextPage = () => {
-    setStep((prev) => prev + 1);
+    if (step === 3) {
+      setStep(1);
+      setUserInfo((prev) => {
+        return { ...prev, recipeType: null, mainIngredient: "" };
+      });
+    } else {
+      setStep((prev) => prev + 1);
+    }
   };
 
   useEffect(() => {
