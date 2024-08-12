@@ -16,7 +16,7 @@ const RecipeItem = styled.div`
   cursor: pointer;
 `;
 
-const Step1 = () => {
+const RecipeKindStep = () => {
   const recipeKind: recipeType[] = ["밥", "반찬", "국", "찌개", "후식"];
   const userContext = useContext(UserContext);
   const { recipeType, setUserInfo } = userContext;
@@ -54,4 +54,4 @@ const Step1 = () => {
   );
 };
 
-export default Step1;
+export default RecipeKindStep;

@@ -1,11 +1,6 @@
 import styled from "styled-components";
 import { UserContext } from "../context/UserContext";
-import {
-  ChangeEvent,
-  ReactElement,
-  ReactEventHandler,
-  useContext,
-} from "react";
+import { ChangeEvent, useContext } from "react";
 
 const QuestionText = styled.h3`
   line-height: 25px;
@@ -24,7 +19,7 @@ const Input = styled.input`
   padding: 20px;
 `;
 
-const Step2 = () => {
+const RecipeIngredientStep = () => {
   const userContext = useContext(UserContext);
   const { mainIngredient, setUserInfo } = userContext;
 
@@ -53,4 +48,4 @@ const Step2 = () => {
   );
 };
 
-export default Step2;
+export default RecipeIngredientStep;

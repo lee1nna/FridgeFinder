@@ -18,14 +18,12 @@ const FoodImg = styled.img`
   box-shadow: 6px 6px 15px 1px #c99e6b;
 `;
 
-const Step3 = () => {
+const RecipeResultStep = () => {
   const userContext = useContext(UserContext);
   const { recipeType, setUserInfo, mainIngredient } = userContext;
   const [recommendRecipe, setRecommendRecipe] = useState<RecipeRes>();
 
   useEffect(() => {
-    console.log(process.env.REACT_APP_API_URL);
-    console.log(process.env.REACT_APP_RECIPE_API_KEY);
     axios
       .get(
         `${process.env.REACT_APP_API_URL}/${process.env.REACT_APP_RECIPE_API_KEY}/COOKRCP01/json/1/1/RCP_PAT2=${recipeType}&RCP_PARTS_DTLS=${mainIngredient}`
@@ -33,6 +31,9 @@ const Step3 = () => {
       .then((res: AxiosResponse) => {
         console.log(res);
         setRecommendRecipe(res.data.COOKRCP01.row[0]);
+      })
+      .catch((err) => {
+        alert(err);
       });
   }, []);
 
@@ -49,4 +50,4 @@ const Step3 = () => {
   );
 };
 
-export default Step3;
+export default RecipeResultStep;

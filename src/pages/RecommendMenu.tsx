@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Wrapper from "../components/Wrapper";
 import RecipeKindStep from "../components/RecipeKindStep";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import RecipeIngredientStep from "../components/RecipeIngredientStep";
 import { UserContext } from "../context/UserContext";
-import RecipeResult from "../components/RecipeResult";
+import RecipeResult from "../components/RecipeResultStep";
 
 const ButtonWrapper = styled.div`
   position: absolute;
