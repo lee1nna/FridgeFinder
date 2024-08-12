@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import Wrapper from "../components/Wrapper";
-import Step1 from "../components/Step1";
+import RecipeKindStep from "../components/RecipeKindStep";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Step2 from "../components/Step2";
+import RecipeIngredientStep from "../components/RecipeIngredientStep";
 import { UserContext } from "../context/UserContext";
-import Step3 from "../components/Step3";
+import RecipeResult from "../components/RecipeResult";
 
 const ButtonWrapper = styled.div<{ step: number }>`
   position: absolute;
@@ -87,9 +87,9 @@ const RecommendMenu = () => {
 
   return (
     <Wrapper>
-      {step === 1 && <Step1 />}
-      {step === 2 && <Step2 />}
-      {step === 3 && <Step3 />}
+      {step === 1 && <RecipeKindStep />}
+      {step === 2 && <RecipeIngredientStep />}
+      {step === 3 && <RecipeResult />}
       <ButtonWrapper step={step}>
         {step < 3 && (
           <StepButton
