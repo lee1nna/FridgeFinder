@@ -7,11 +7,11 @@ import RecipeIngredientStep from "../components/RecipeIngredientStep";
 import { UserContext } from "../context/UserContext";
 import RecipeResult from "../components/RecipeResult";
 
-const ButtonWrapper = styled.div<{ step: number }>`
+const ButtonWrapper = styled.div`
   position: absolute;
   width: calc(100% - 40px);
   display: flex;
-  justify-content: ${(props) => (props.step < 3 ? "space-between" : "center")};
+  justify-content: space-between;
   bottom: 30px;
 `;
 
@@ -45,6 +45,8 @@ const RecommendMenu = () => {
   const [nextPagePath, setNextPagePath] = useState("/recommend-menu");
 
   const goPrevPage = (step: number) => {
+    setStep((prev) => prev - 1);
+
     if (step === 1) {
       setUserInfo((prev) => {
         return { ...prev, recipeType: null };
@@ -53,8 +55,9 @@ const RecommendMenu = () => {
       setUserInfo((prev) => {
         return { ...prev, mainIngredient: "" };
       });
+    } else {
+      return;
     }
-    setStep((prev) => prev - 1);
   };
 
   const goNextPage = () => {
@@ -68,20 +71,6 @@ const RecommendMenu = () => {
     }
   };
 
-  useEffect(() => {
-    switch (step) {
-      case 1:
-        setPrevPagePath("/");
-        break;
-      case 2:
-        setPrevPagePath("/recommend-menu");
-        break;
-      case 3:
-        setNextPagePath("/");
-        break;
-    }
-  }, [step]);
-
   const userContext = useContext(UserContext);
   const { recipeType, setUserInfo, mainIngredient } = userContext;
 
@@ -90,23 +79,25 @@ const RecommendMenu = () => {
       {step === 1 && <RecipeKindStep />}
       {step === 2 && <RecipeIngredientStep />}
       {step === 3 && <RecipeResult />}
-      <ButtonWrapper step={step}>
-        {step < 3 && (
+      <ButtonWrapper>
+        {
           <StepButton
             backgroundColor="#ff6f6f"
             onClick={() => {
               goPrevPage(step);
             }}
           >
-            <StyledLink to={prevPagePath}>이전</StyledLink>
+            <StyledLink to={step !== 1 ? "/recommend-menu" : "/"}>
+              이전
+            </StyledLink>
           </StepButton>
-        )}
+        }
         <StepButton
           backgroundColor="#8f98ff"
           disabled={step === 1 ? !recipeType : mainIngredient === ""}
           onClick={goNextPage}
         >
-          <StyledLink to={nextPagePath}>
+          <StyledLink to={step !== 3 ? "/recommend-menu" : "/"}>
             {step === 1 && "다음"}
             {step === 2 && "추천받기"}
             {step === 3 && "메인으로"}

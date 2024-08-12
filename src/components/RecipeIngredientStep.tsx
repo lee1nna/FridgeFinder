@@ -46,6 +46,7 @@ const Step2 = () => {
         </WarningText>
       </QuestionText>
       <Input
+        value={mainIngredient}
         onChange={(e: ChangeEvent<HTMLInputElement>) => changeIngrdient(e)}
       ></Input>
     </>
