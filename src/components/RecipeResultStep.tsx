@@ -4,6 +4,8 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { RecipeRes } from "../type/recipe";
 import crying from "../assets/icon/crying_icon.png";
+import Loading from "./Loading";
+import { LoadingContext } from "../context/LoadingContext";
 
 const Text = styled.h4``;
 
@@ -26,18 +28,35 @@ const FoodImg = styled.img`
 
 const RecipeResultStep = () => {
   const userContext = useContext(UserContext);
+  const loadingContext = useContext(LoadingContext);
+  const { setIsLoading } = loadingContext;
   const { recipeType, mainIngredient } = userContext;
   const [recommendRecipe, setRecommendRecipe] = useState<RecipeRes>();
   const { REACT_APP_RECIPE_API_KEY, REACT_APP_API_URL } = process.env;
 
   const fetchRecommendedRecipe = async () => {
-    const url = `${REACT_APP_API_URL}/${REACT_APP_RECIPE_API_KEY}/COOKRCP01/json/1/1/RCP_PAT2=${recipeType}&RCP_PARTS_DTLS=${mainIngredient}`;
+    const url = `${REACT_APP_API_URL}/${REACT_APP_RECIPE_API_KEY}/COOKRCP01/json/1/100/RCP_PAT2=${recipeType}&RCP_PARTS_DTLS=${mainIngredient}`;
+
+    setIsLoading(() => {
+      return {
+        isLoading: true,
+      };
+    });
+
     try {
       const res = await axios.get(url);
       if (res.data.COOKRCP01.RESULT.CODE === "INFO-200") {
+        setIsLoading(() => {
+          return {
+            isLoading: false,
+          };
+        });
         return;
       }
-      setRecommendRecipe(res.data.COOKRCP01.row[0]);
+      let randomIndex = Math.floor(
+        Number(Math.random() * res.data.COOKRCP01.row.length - 1)
+      );
+      setRecommendRecipe(res.data.COOKRCP01.row[randomIndex]);
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         if (err.code === "ERR_NETWORK") {
@@ -45,6 +64,12 @@ const RecipeResultStep = () => {
         }
       }
     }
+
+    setIsLoading(() => {
+      return {
+        isLoading: false,
+      };
+    });
   };
 
   useEffect(() => {
@@ -53,10 +78,12 @@ const RecipeResultStep = () => {
 
   return (
     <>
-      <Text>
-        <span style={{ color: "#ff8c00" }}>{mainIngredient}</span>(이)가
-        들어가는 아래 메뉴를 추천드립니다!
-      </Text>
+      {recommendRecipe?.RCP_NM && (
+        <Text>
+          <span style={{ color: "#ff8c00" }}>{mainIngredient}</span>(이)가
+          들어가는 아래 메뉴를 추천드립니다!
+        </Text>
+      )}
       <RecommendMenu>
         {recommendRecipe?.RCP_NM ||
           `${mainIngredient}(이)가 들어가는 메뉴를 \n 찾지 못했습니다.

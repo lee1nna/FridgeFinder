@@ -4,12 +4,10 @@ import Home from "./pages/Home";
 import RecommendMenu from "./pages/RecommendMenu";
 import FavoriteRecipe from "./pages/FavoriteRecipe";
 import RecommendDiet from "./pages/RecommendDiet";
-import {
-  UserContext,
-  UserInfoContextType,
-  UserInfoType,
-} from "./context/UserContext";
+import { UserContext, UserInfoType } from "./context/UserContext";
 import { useState } from "react";
+import Loading from "./components/Loading";
+import { LoadingContext, LoadingType } from "./context/LoadingContext";
 
 function App() {
   const [userInfo, setUserInfo] = useState<UserInfoType>({
@@ -17,14 +15,21 @@ function App() {
     mainIngredient: "",
   });
 
+  const [loadingStatus, setIsLoading] = useState<LoadingType>({
+    isLoading: false,
+  });
+
   return (
     <UserContext.Provider value={{ ...userInfo, setUserInfo }}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/recommend-menu" element={<RecommendMenu />} />
-        <Route path="/recommend-diet" element={<RecommendDiet />} />
-        <Route path="/favorite-recipe" element={<FavoriteRecipe />} />
-      </Routes>
+      <LoadingContext.Provider value={{ ...loadingStatus, setIsLoading }}>
+        {loadingStatus.isLoading && <Loading></Loading>}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/recommend-menu" element={<RecommendMenu />} />
+          <Route path="/recommend-diet" element={<RecommendDiet />} />
+          <Route path="/favorite-recipe" element={<FavoriteRecipe />} />
+        </Routes>
+      </LoadingContext.Provider>
     </UserContext.Provider>
   );
 }
