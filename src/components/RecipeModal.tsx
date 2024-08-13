@@ -23,10 +23,18 @@ const Modal = styled.div`
   background-color: #ff833a;
   border-radius: 40px 40px 0px 0px;
   z-index: 2;
-  bottom: -25%;
   padding: 20px;
   box-sizing: border-box;
   overflow: auto;
+  animation: upSlide 1.2s forwards;
+  @keyframes upSlide {
+    from {
+      bottom: -100%;
+    }
+    to {
+      bottom: -25%;
+    }
+  }
 `;
 
 const Text = styled.div<{
@@ -42,8 +50,9 @@ const Text = styled.div<{
 `;
 
 const RecipeModal = ({ recipe, offModal }: RecipeModalProps) => {
-  let [menualKey, setMenualKey] = useState<string[]>([]);
+  const [menualKey, setMenualKey] = useState<string[]>([]);
   const reg = /^MANUAL(0[1-9]|1[0-9]|20)$/;
+  const [bottom, setBottom] = useState("-100%");
 
   useEffect(() => {
     if (recipe) {
