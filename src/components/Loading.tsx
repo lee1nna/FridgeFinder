@@ -27,20 +27,19 @@ const LoadingBar = styled.img<{ scale: number }>`
 const Loading = () => {
   const [scaleArr, setScaleArr] = useState([1, 1, 1]);
 
-  const index = useRef(0);
+  const loadingIntervalFunc = () => {
+    setScaleArr((prev) => {
+      let idx = prev.findIndex((scale) => scale === 1.3);
+      if (idx === 2) idx = -1;
+      const newArray = [1, 1, 1];
+      newArray[idx + 1] = 1.3;
+      return newArray;
+    });
+  };
 
   useEffect(() => {
-    const intervalTimer = setInterval(() => {
-      setScaleArr((prev) => {
-        console.log(index.current);
-        const newArray = [1, 1, 1];
-        newArray[index.current] = 1.3;
-
-        return newArray;
-      });
-
-      index.current = (index.current + 1) % 3;
-    }, 300);
+    loadingIntervalFunc();
+    const intervalTimer = setInterval(loadingIntervalFunc, 300);
 
     return () => {
       clearInterval(intervalTimer);
