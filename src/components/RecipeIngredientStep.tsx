@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { UserContext } from "../context/UserContext";
-import { ChangeEvent, useContext } from "react";
+import { ChangeEvent, useContext, useEffect, useRef } from "react";
 
 const QuestionText = styled.h3`
   line-height: 25px;
@@ -22,6 +22,11 @@ const Input = styled.input`
 const RecipeIngredientStep = () => {
   const userContext = useContext(UserContext);
   const { mainIngredient, setUserInfo } = userContext;
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   const changeIngrdient = (e: ChangeEvent<HTMLInputElement>) => {
     setUserInfo((prev) => {
@@ -41,6 +46,7 @@ const RecipeIngredientStep = () => {
         </WarningText>
       </QuestionText>
       <Input
+        ref={inputRef}
         value={mainIngredient}
         onChange={(e: ChangeEvent<HTMLInputElement>) => changeIngrdient(e)}
       ></Input>

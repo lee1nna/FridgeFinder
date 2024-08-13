@@ -9,7 +9,7 @@ const Wrap = styled.div`
   width: 100%;
   max-width: 400px;
   background-color: #f5f5dc;
-  padding: 20px;
+  padding: 100px 20px;
 `;
 
 const Wrapper = ({ children }: WrapperProps) => {
