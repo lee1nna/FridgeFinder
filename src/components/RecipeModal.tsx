@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ManualKey, RecipeRes } from "../type/recipe";
+import { RecipeRes } from "../type/recipe";
 import { useEffect, useState } from "react";
 
 type RecipeModalProps = {
@@ -7,7 +7,7 @@ type RecipeModalProps = {
   offModal: () => void;
 };
 
-const RecipeBg = styled.div`
+const ModalBg = styled.div`
   position: absolute;
   height: 100%;
   width: 100%;
@@ -16,6 +16,8 @@ const RecipeBg = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1;
 `;
+
+const RecipeBg = styled(ModalBg)``;
 
 const Modal = styled.div`
   position: relative;
@@ -52,7 +54,6 @@ const Text = styled.div<{
 const RecipeModal = ({ recipe, offModal }: RecipeModalProps) => {
   const [menualKey, setMenualKey] = useState<string[]>([]);
   const reg = /^MANUAL(0[1-9]|1[0-9]|20)$/;
-  const [bottom, setBottom] = useState("-100%");
 
   useEffect(() => {
     if (recipe) {
@@ -73,7 +74,8 @@ const RecipeModal = ({ recipe, offModal }: RecipeModalProps) => {
     });
   }, []);
   return (
-    <RecipeBg onClick={() => offModal()}>
+    <ModalBg>
+      <RecipeBg onClick={() => offModal()}></RecipeBg>
       <Modal>
         <Text fontSize="20px" align="center">
           {recipe?.RCP_NM} 레시피
@@ -88,7 +90,7 @@ const RecipeModal = ({ recipe, offModal }: RecipeModalProps) => {
           {menualKey?.map((key) => {
             if (recipe && recipe[key as keyof RecipeRes] !== "") {
               return (
-                <Text fontSize="15px" align="center" marginTop="15px">
+                <Text fontSize="15px" align="left" marginTop="15px">
                   {recipe[key as keyof RecipeRes]} <br />
                 </Text>
               );
@@ -96,7 +98,7 @@ const RecipeModal = ({ recipe, offModal }: RecipeModalProps) => {
           })}
         </Text>
       </Modal>
-    </RecipeBg>
+    </ModalBg>
   );
 };
 
