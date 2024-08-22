@@ -10,7 +10,8 @@ const Wrap = styled.div<{ position?: string }>`
   width: 100%;
   max-width: 400px;
   background-color: #f5f5dc;
-  padding: 100px 20px;
+  padding: 60px 20px;
+  box-sizing: border-box;
 `;
 
 const Wrapper = ({ children, position }: WrapperProps) => {

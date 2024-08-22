@@ -8,8 +8,11 @@ import crying from "../assets/icon/crying_icon.png";
 import RecipeModal from "./RecipeModal";
 
 const DietWrap = styled.div``;
-const Text = styled.span<{ marginRight?: string }>`
+const Text = styled.span<{ marginRight?: string; width: string }>`
+  width: ${(props) => props.width};
+  text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
   margin-right: ${(props) => (props.marginRight ? props.marginRight : 0)};
 `;
 const FlexColumn = styled.div`
@@ -32,7 +35,7 @@ const FoodImg = styled.img`
   object-fit: cover;
   border-radius: 50%;
   box-shadow: 6px 6px 15px 1px #c99e6b;
-  margin-right: 15px;
+  margin: 0 15px;
 `;
 
 const Button = styled.button`
@@ -59,24 +62,15 @@ const DietResultStep = () => {
   const [recipe, setRecipe] = useState<RecipeRes>();
 
   const fetchDietRecipe = async () => {
-    let url;
-    let randomIndex = Math.floor(Number(Math.random() * 100));
+    const randomIndex = Math.floor(Math.random() * 15);
+    const ingredientQuery = mainIngredient.length
+      ? `/RCP_PARTS_DTLS=${mainIngredient}`
+      : "";
+    const url = `${REACT_APP_API_URL}/${REACT_APP_RECIPE_API_KEY}/COOKRCP01/json/${randomIndex}/${
+      randomIndex + 6
+    }${ingredientQuery}`;
 
-    if (mainIngredient.length === 0) {
-      url = `${REACT_APP_API_URL}/${REACT_APP_RECIPE_API_KEY}/COOKRCP01/json/${randomIndex}/${
-        randomIndex + 6
-      }`;
-    } else {
-      url = `${REACT_APP_API_URL}/${REACT_APP_RECIPE_API_KEY}/COOKRCP01/json/${randomIndex}/${
-        randomIndex + 6
-      }/RCP_PARTS_DTLS=${mainIngredient}`;
-    }
-
-    setIsLoading(() => {
-      return {
-        isLoading: true,
-      };
-    });
+    setIsLoading({ isLoading: true });
 
     try {
       const res = await axios.get(url);
@@ -86,11 +80,7 @@ const DietResultStep = () => {
       console.log(err);
     }
 
-    setIsLoading(() => {
-      return {
-        isLoading: false,
-      };
-    });
+    setIsLoading({ isLoading: false });
   };
 
   const openRecipeModal = (recipe: RecipeRes) => {
@@ -104,16 +94,18 @@ const DietResultStep = () => {
 
   return (
     <DietWrap>
-      {mainIngredient.length === 0 ? "랜덤 메뉴" : mainIngredient}를 이용한
-      주간식단메뉴입니다.
+      <span style={{ color: "#ff8c00" }}>
+        {mainIngredient.length ? mainIngredient : "랜덤 메뉴"}
+      </span>
+      를 이용한 주간식단메뉴입니다.
       <FlexColumn>
         {recommendDiet?.map((diet, idx) => {
           return (
             <FlexRow>
-              <Text marginRight="15px">{week[idx]}</Text>
+              <Text width="30px">{week[idx]}</Text>
               <FoodImg src={diet?.ATT_FILE_NO_MAIN || crying} alt="food_img" />
               <FlexColumn>
-                <Text>{diet.RCP_NM}</Text>
+                <Text width="150px">{diet.RCP_NM}</Text>
               </FlexColumn>
               <Button onClick={() => openRecipeModal(diet)}>레시피보기</Button>
             </FlexRow>
