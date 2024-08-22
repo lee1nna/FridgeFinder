@@ -7,6 +7,22 @@ import { UserContext } from "../context/UserContext";
 
 const RecommendDiet = () => {
   const [step, setStep] = useState<number>(1);
+  const userContext = useContext(UserContext);
+  const { setUserInfo } = userContext;
+
+  const clickPrevBtn = () => {
+    if (step === 1) {
+      setUserInfo(() => ({ recipeType: null, mainIngredient: "" }));
+    }
+    setStep((prev) => prev - 1);
+  };
+
+  const clickNextBtn = () => {
+    if (step === 2) {
+      setUserInfo(() => ({ recipeType: null, mainIngredient: "" }));
+    }
+    setStep(2);
+  };
 
   return (
     <Wrapper>
@@ -15,17 +31,14 @@ const RecommendDiet = () => {
 
       <ButtonWrapper>
         {
-          <StepButton
-            backgroundColor="#ff6f6f"
-            onClick={() => setStep((prev) => prev - 1)}
-          >
+          <StepButton backgroundColor="#ff6f6f" onClick={clickPrevBtn}>
             <StyledLink to={step !== 1 ? "/recommend-diet" : "/"}>
               이전
             </StyledLink>
           </StepButton>
         }
 
-        <StepButton backgroundColor="#8f98ff" onClick={() => setStep(2)}>
+        <StepButton backgroundColor="#8f98ff" onClick={clickNextBtn}>
           <StyledLink to={step !== 2 ? "/recommend-diet" : "/"}>
             {step === 1 && "추천받기"}
             {step === 2 && "메인으로"}

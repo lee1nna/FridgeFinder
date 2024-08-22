@@ -101,7 +101,7 @@ const DietResultStep = () => {
       <FlexColumn>
         {recommendDiet?.map((diet, idx) => {
           return (
-            <FlexRow>
+            <FlexRow key={`diet_${idx}`}>
               <Text width="30px">{week[idx]}</Text>
               <FoodImg src={diet?.ATT_FILE_NO_MAIN || crying} alt="food_img" />
               <FlexColumn>

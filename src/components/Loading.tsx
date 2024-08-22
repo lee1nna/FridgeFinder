@@ -49,8 +49,14 @@ const Loading = () => {
   return (
     <LoadingWrap>
       <LoadingBarWrap>
-        {scaleArr.map((scale) => {
-          return <LoadingBar src={tomato} scale={scale}></LoadingBar>;
+        {scaleArr.map((scale, idx) => {
+          return (
+            <LoadingBar
+              key={`tomato_${idx}`}
+              src={tomato}
+              scale={scale}
+            ></LoadingBar>
+          );
         })}
       </LoadingBarWrap>
     </LoadingWrap>
