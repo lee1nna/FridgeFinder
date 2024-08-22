@@ -7,7 +7,7 @@ import RecipeIngredientStep from "../components/RecipeIngredientStep";
 import { UserContext } from "../context/UserContext";
 import RecipeResult from "../components/RecipeResultStep";
 
-const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
   position: absolute;
   width: calc(100% - 40px);
   display: flex;
@@ -15,7 +15,7 @@ const ButtonWrapper = styled.div`
   bottom: 30px;
 `;
 
-const StepButton = styled.button<{
+export const StepButton = styled.button<{
   backgroundColor: string;
   disabled?: boolean;
 }>`
@@ -32,7 +32,7 @@ const StepButton = styled.button<{
     props.disabled ? "#cccccc" : props.backgroundColor};
 `;
 
-const StyledLink = styled(Link)`
+export const StyledLink = styled(Link)`
   color: #fff;
   padding: 15px;
   width: 100%;
@@ -41,8 +41,6 @@ const StyledLink = styled(Link)`
 
 const RecommendMenu = () => {
   const [step, setStep] = useState<number>(1);
-  const [prevPagePath, setPrevPagePath] = useState("/");
-  const [nextPagePath, setNextPagePath] = useState("/recommend-menu");
 
   const goPrevPage = (step: number) => {
     setStep((prev) => prev - 1);

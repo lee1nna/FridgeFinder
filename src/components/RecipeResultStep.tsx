@@ -32,7 +32,7 @@ const FoodImg = styled.img`
   box-shadow: 6px 6px 15px 1px #c99e6b;
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   cursor: pointer;
   border: 0;
   padding: 15px;
@@ -79,7 +79,6 @@ const RecipeResultStep = () => {
         Number(Math.random() * res.data.COOKRCP01.row.length - 1)
       );
       setRecommendRecipe(res.data.COOKRCP01.row[randomIndex]);
-      console.log("res.data.COOKRCP01::", res.data.COOKRCP01.row[randomIndex]);
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         if (err.code === "ERR_NETWORK") {
