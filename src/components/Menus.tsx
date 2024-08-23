@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import styled from "styled-components";
 import { auth } from "../firebase";
 import { useEffect, useState } from "react";
+import LogoutIcon from "../assets/icon/logout_icon.png"
+import { signOut } from "firebase/auth";
 
 const MenuWrapper = styled.div`
   width: 100%;
@@ -9,7 +11,7 @@ const MenuWrapper = styled.div`
 `;
 
 const MenuList = styled.ul`
-  padding: 10px;
+  padding: 20px 10px;
   height: calc(100% - 20px);
   margin: 0px;
   display: flex;
@@ -27,7 +29,6 @@ const MenuItem = styled.li<{ isOpen: boolean }>`
   width: 100%;
   height: 33%;
   border-radius: 20px;
-  /* border: 2px solid ${(props) => (props.isOpen ? "#fff" : "#d0d0d0")}; */
   background-color: #ff8c00;
   font-size: 18px;
 `;
@@ -42,6 +43,20 @@ const StyledLink = styled(Link)<{ isOpen: boolean }>`
   justify-content: center;
 `;
 
+const LogoutWrap = styled.div`
+  width:100%;
+  position: relative;
+  display:flex;
+  justify-content: end;
+`
+const Logout = styled.img`
+  width: 24px;
+  height: 24px;
+  position: relative;
+  bottom: 13px;
+  left: 18px;
+`
+
 type Menu = {
   id: number;
   name: string;
@@ -55,8 +70,7 @@ const Menus = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(auth.currentUser);
 
   useEffect(() => {
-    console.log("isLoggedIn>>", isLoggedIn);
-    if (isLoggedIn === null) {
+    if (!isLoggedIn) {
       setMenuList([
         {
           id: 1,
@@ -93,7 +107,17 @@ const Menus = () => {
         },
       ]);
     }
-  }, []);
+  }, [isLoggedIn]);
+
+  const clickLogout = () => {
+    console.log('로그아웃')
+    signOut(auth).then(res => {
+      console.log(res)
+      setIsLoggedIn(null)
+    }).catch(err => {
+      console.log('로그아웃 실패:', err)
+    })
+  }
 
   return (
     <MenuWrapper>
@@ -108,6 +132,12 @@ const Menus = () => {
             </MenuItem>
           );
         })}
+        {
+          isLoggedIn && 
+          <LogoutWrap>
+          <Logout src={LogoutIcon} onClick={clickLogout}></Logout>
+        </LogoutWrap> 
+        }
       </MenuList>
     </MenuWrapper>
   );

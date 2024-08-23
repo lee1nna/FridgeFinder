@@ -32,7 +32,7 @@ const SignUp = () => {
     setPassowrd(e.target.value);
   };
 
-  const signInWithEmail = () => {
+  const signUpWithEmail = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((user) => {
         console.log("회원가입 성공:", user);
@@ -78,7 +78,7 @@ const SignUp = () => {
           backgroundColor={"#007144"}
           disabled={!email || !password}
           style={{ marginTop: "70px", padding: "0 20px" }}
-          onClick={signInWithEmail}
+          onClick={signUpWithEmail}
         >
           회원가입
         </StepButton>
