@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/FridgeFinder/static/css/main.4bf310f3.css",
+    "main.js": "/FridgeFinder/static/js/main.b34353ee.js",
+    "static/js/453.6302694d.chunk.js": "/FridgeFinder/static/js/453.6302694d.chunk.js",
+    "static/media/lettuce.png": "/FridgeFinder/static/media/lettuce.d2b8324e89abf77c9ab2.png",
+    "static/media/avocado.png": "/FridgeFinder/static/media/avocado.b7a3e8990a32ec182f38.png",
+    "static/media/carrots.png": "/FridgeFinder/static/media/carrots.8ab9759fb61d57b78bea.png",
+    "static/media/tomato.png": "/FridgeFinder/static/media/tomato.abeecff7307677cd95ae.png",
+    "static/media/eggplant.png": "/FridgeFinder/static/media/eggplant.a6306e9a7608631b7faa.png",
+    "static/media/crying_icon.png": "/FridgeFinder/static/media/crying_icon.c0dc0764adb658bf158f.png",
+    "index.html": "/FridgeFinder/index.html",
+    "main.4bf310f3.css.map": "/FridgeFinder/static/css/main.4bf310f3.css.map",
+    "main.b34353ee.js.map": "/FridgeFinder/static/js/main.b34353ee.js.map",
+    "453.6302694d.chunk.js.map": "/FridgeFinder/static/js/453.6302694d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4bf310f3.css",
+    "static/js/main.b34353ee.js"
+  ]
+}
