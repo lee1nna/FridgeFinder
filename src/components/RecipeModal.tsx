@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 type RecipeModalProps = {
   recipe: RecipeRes | undefined;
   offModal: () => void;
+  modalStatus: boolean | undefined;
 };
 
-const ModalBg = styled.div`
+const ModalBg = styled.div<{ modalStatus: undefined | boolean }>`
   position: absolute;
   height: 100%;
   width: 100%;
@@ -15,11 +16,25 @@ const ModalBg = styled.div`
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1;
+  ${(props) =>
+    props.modalStatus === false &&
+    `
+    animation: fadeOut 1s forwards;
+  `}
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      display: none;
+    }
+  }
 `;
 
 const RecipeBg = styled(ModalBg)``;
 
-const Modal = styled.div`
+const Modal = styled.div<{ animation?: string }>`
   position: relative;
   height: 75%;
   background-color: #ff833a;
@@ -28,13 +43,21 @@ const Modal = styled.div`
   padding: 20px;
   box-sizing: border-box;
   overflow: auto;
-  animation: upSlide 1.2s forwards;
+  animation: ${(props) => (props.animation ? props.animation : "none")};
   @keyframes upSlide {
     from {
       bottom: -100%;
     }
     to {
       bottom: -25%;
+    }
+  }
+  @keyframes downSlide {
+    from {
+      bottom: -25%;
+    }
+    to {
+      bottom: -100%;
     }
   }
 `;
@@ -51,7 +74,7 @@ const Text = styled.div<{
   line-height: 25px;
 `;
 
-const RecipeModal = ({ recipe, offModal }: RecipeModalProps) => {
+const RecipeModal = ({ recipe, offModal, modalStatus }: RecipeModalProps) => {
   const [menualKey, setMenualKey] = useState<string[]>([]);
   const reg = /^MANUAL(0[1-9]|1[0-9]|20)$/;
 
@@ -74,9 +97,16 @@ const RecipeModal = ({ recipe, offModal }: RecipeModalProps) => {
     });
   }, []);
   return (
-    <ModalBg>
-      <RecipeBg onClick={() => offModal()}></RecipeBg>
-      <Modal>
+    <ModalBg modalStatus={modalStatus ? modalStatus : false}>
+      <RecipeBg
+        modalStatus={modalStatus ? modalStatus : false}
+        onClick={() => offModal()}
+      ></RecipeBg>
+      <Modal
+        animation={
+          modalStatus ? "upSlide 1s forwards" : "downSlide 1s forwards"
+        }
+      >
         <Text fontSize="20px" align="center">
           {recipe?.RCP_NM} 레시피
         </Text>
@@ -87,10 +117,15 @@ const RecipeModal = ({ recipe, offModal }: RecipeModalProps) => {
           팁 - {recipe?.RCP_NA_TIP}
         </Text>
         <Text fontSize="14px" align="left" marginTop="20px">
-          {menualKey?.map((key) => {
+          {menualKey?.map((key, idx) => {
             if (recipe && recipe[key as keyof RecipeRes] !== "") {
               return (
-                <Text fontSize="15px" align="left" marginTop="15px">
+                <Text
+                  key={`menual_${idx}`}
+                  fontSize="15px"
+                  align="left"
+                  marginTop="15px"
+                >
                   {recipe[key as keyof RecipeRes]} <br />
                 </Text>
               );

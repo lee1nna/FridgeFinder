@@ -112,8 +112,12 @@ const DietResultStep = () => {
           );
         })}
       </FlexColumn>
-      {isRecipe && recipe?.RCP_NM && (
-        <RecipeModal offModal={() => setIsRecipe(false)} recipe={recipe} />
+      {recipe?.RCP_NM && (
+        <RecipeModal
+          modalStatus={isRecipe}
+          offModal={() => setIsRecipe(false)}
+          recipe={recipe}
+        />
       )}
     </DietWrap>
   );

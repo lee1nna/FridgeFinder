@@ -54,7 +54,7 @@ const RecipeResultStep = () => {
   const { recipeType, mainIngredient } = userContext;
   const [recommendRecipe, setRecommendRecipe] = useState<RecipeRes>();
   const { REACT_APP_RECIPE_API_KEY, REACT_APP_API_URL } = process.env;
-  const [isRecipe, setIsRecipe] = useState(false);
+  const [isRecipe, setIsRecipe] = useState<boolean | undefined>(undefined);
 
   const fetchRecommendedRecipe = async () => {
     const url = `${REACT_APP_API_URL}/${REACT_APP_RECIPE_API_KEY}/COOKRCP01/json/1/100/RCP_PAT2=${recipeType}&RCP_PARTS_DTLS=${mainIngredient}`;
@@ -116,8 +116,9 @@ const RecipeResultStep = () => {
         alt="food_img"
       />
       <Button onClick={() => setIsRecipe(true)}>레시피보기</Button>
-      {isRecipe && recommendRecipe?.RCP_NM && (
+      {isRecipe !== undefined && (
         <RecipeModal
+          modalStatus={isRecipe}
           offModal={() => setIsRecipe(false)}
           recipe={recommendRecipe}
         />
