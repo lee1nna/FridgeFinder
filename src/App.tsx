@@ -8,8 +8,10 @@ import { UserContext, UserInfoType } from "./context/UserContext";
 import { useState } from "react";
 import Loading from "./components/Loading";
 import { LoadingContext, LoadingType } from "./context/LoadingContext";
+import { auth } from "./firebase";
 
 function App() {
+  console.log(auth);
   const [userInfo, setUserInfo] = useState<UserInfoType>({
     recipeType: null,
     mainIngredient: "",
