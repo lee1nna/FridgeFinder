@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { RecipeRes } from "../type/recipe";
 import { useEffect, useState } from "react";
 import Favorite from "./Favorite";
-import { db } from "../firebase";
-import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
+import { arrayRemove, arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 
 type RecipeModalProps = {
   recipe: RecipeRes | undefined;
@@ -103,7 +103,8 @@ const RecipeModal = ({ recipe, offModal, modalStatus }: RecipeModalProps) => {
   }, []);
 
   const getFirebaseData = async () => {
-    const docRef = doc(db, 'favorite_recipes', 'mFABbEYFEanJA1ElRhe7')
+    const docRef = doc(db, 'users', auth.currentUser?.uid!, 'favorite_recipes', 'DJJoxCmhPZZafMy5xx0g')
+
     try {
       const docSnap = await getDoc(docRef)
       const data = docSnap.data()
@@ -123,17 +124,24 @@ const RecipeModal = ({ recipe, offModal, modalStatus }: RecipeModalProps) => {
   },[modalStatus])
 
   const clickFavoriteRecipe = async (recipeName: string) => {
-    console.log('클릭이요', isFavorite)
-    const docRef = doc(db, 'favorite_recipes', 'mFABbEYFEanJA1ElRhe7')
+    console.log('auth.currentUser?.uid!',auth.currentUser?.uid!)
+    const docRef = doc(db, 'users', auth.currentUser?.uid!, 'favorite_recipes', 'DJJoxCmhPZZafMy5xx0g')
+    const docSnap = await getDoc(docRef);
+
 
     // 즐겨찾는 레시피 추가
     if(!isFavorite) {
-    try {
-      const res = await updateDoc(docRef, {
-        RCP_NM: arrayUnion(recipeName)
-      });
+      try {
+        if(docSnap.exists()){
+          await updateDoc(docRef, {
+            RCP_NM: arrayUnion(recipeName)
+          });
+        } else {
+          await setDoc(docRef,{
+            RCP_NM: arrayUnion(recipeName)
+          });
+      }
     setIsFavorite(true)
-      console.log(res)
     } catch(err) {
       console.log('데이터 저장 err', err)
     }

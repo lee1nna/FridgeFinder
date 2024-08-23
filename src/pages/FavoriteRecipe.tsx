@@ -7,7 +7,7 @@ import { QuestionText } from "../components/RecipeIngredientStep";
 import RecipeModal from "../components/RecipeModal";
 import Wrapper from "../components/Wrapper";
 import { LoadingContext } from "../context/LoadingContext";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 import { RecipeRes } from "../type/recipe";
 
 const RecipeUl = styled.ul`
@@ -34,7 +34,8 @@ const FavoriteRecipe = () => {
 
   const getFirebaseData = async () => {
     setIsLoading({isLoading: true});
-    const docRef = doc(db, 'favorite_recipes', 'mFABbEYFEanJA1ElRhe7')
+    const docRef = doc(db, 'users', auth.currentUser?.uid!, 'favorite_recipes', 'DJJoxCmhPZZafMy5xx0g')
+    
     try {
       const docSnap = await getDoc(docRef)
       const data = docSnap.data()
@@ -57,11 +58,14 @@ const FavoriteRecipe = () => {
   const [recipe, setRecipe] = useState<RecipeRes>();
 
   const fetchRecipe = async (recipe:string) => {
-    const url = `${REACT_APP_API_URL}/${REACT_APP_RECIPE_API_KEY}/COOKRCP01/json/1/1/RCP_NM=${recipe}`;
+    let tempRecipe = recipe.split('&')[0]
+
+    const url = `${REACT_APP_API_URL}/${REACT_APP_RECIPE_API_KEY}/COOKRCP01/json/1/1/RCP_NM=${tempRecipe}`;
 
     try {
       const res = await axios.get(url);
       setRecipe(res.data.COOKRCP01.row[0])
+
       setIsRecipe(true)
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
