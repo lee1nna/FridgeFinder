@@ -115,7 +115,9 @@ const RecipeResultStep = () => {
         src={recommendRecipe?.ATT_FILE_NO_MAIN || crying}
         alt="food_img"
       />
-      <Button onClick={() => setIsRecipe(true)}>레시피보기</Button>
+      {recommendRecipe?.RCP_NM && (
+        <Button onClick={() => setIsRecipe(true)}>레시피보기</Button>
+      )}
       {isRecipe !== undefined && (
         <RecipeModal
           modalStatus={isRecipe}
