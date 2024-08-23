@@ -102,8 +102,8 @@ const Menus = () => {
         {
           id: 3,
           name: "보관된 레시피 보기",
-          isOpen: false,
-          url: "/favorite-recipex",
+          isOpen: true,
+          url: "/favorite-recipe",
         },
       ]);
     }

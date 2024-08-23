@@ -38,7 +38,7 @@ const FoodImg = styled.img`
   margin: 0 15px;
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   font-size: 14px;
   box-shadow: 0px 5px 0px 0px #007144;
   background-color: #21825b;
