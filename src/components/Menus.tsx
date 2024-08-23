@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { auth } from "../firebase";
+import { useEffect, useState } from "react";
 
 const MenuWrapper = styled.div`
   width: 100%;
@@ -48,21 +50,50 @@ type Menu = {
 };
 
 const Menus = () => {
-  const menuList: Menu[] = [
-    {
-      id: 1,
-      name: "냉장고 재료로 레시피 추천받기",
-      isOpen: true,
-      url: "/recommend-menu",
-    },
-    { id: 2, name: "주간식단 추천받기", isOpen: true, url: "/recommend-diet" },
-    {
-      id: 3,
-      name: "보관된 레시피 보기",
-      isOpen: false,
-      url: "/favorite-recipex",
-    },
-  ];
+  const [menuList, setMenuList] = useState<Menu[]>([]);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(auth.currentUser);
+
+  useEffect(() => {
+    console.log("isLoggedIn>>", isLoggedIn);
+    if (isLoggedIn === null) {
+      setMenuList([
+        {
+          id: 1,
+          name: "로그인",
+          isOpen: true,
+          url: "/signin",
+        },
+        {
+          id: 2,
+          name: "회원가입",
+          isOpen: true,
+          url: "/signup",
+        },
+      ]);
+    } else {
+      setMenuList([
+        {
+          id: 1,
+          name: "냉장고 재료로 레시피 추천받기",
+          isOpen: true,
+          url: "/recommend-menu",
+        },
+        {
+          id: 2,
+          name: "주간식단 추천받기",
+          isOpen: true,
+          url: "/recommend-diet",
+        },
+        {
+          id: 3,
+          name: "보관된 레시피 보기",
+          isOpen: false,
+          url: "/favorite-recipex",
+        },
+      ]);
+    }
+  }, []);
 
   return (
     <MenuWrapper>
