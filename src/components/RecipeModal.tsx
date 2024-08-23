@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { RecipeRes } from "../type/recipe";
 import { useEffect, useState } from "react";
+import Favorite from "./Favorite";
+import { db } from "../firebase";
+import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 
 type RecipeModalProps = {
   recipe: RecipeRes | undefined;
@@ -77,6 +80,8 @@ const Text = styled.div<{
 const RecipeModal = ({ recipe, offModal, modalStatus }: RecipeModalProps) => {
   const [menualKey, setMenualKey] = useState<string[]>([]);
   const reg = /^MANUAL(0[1-9]|1[0-9]|20)$/;
+  const [isFavorite, setIsFavorite] = useState(false)
+  const [favoriteRecipes, setFavoriteRecipes] = useState([])
 
   useEffect(() => {
     if (recipe) {
@@ -96,6 +101,61 @@ const RecipeModal = ({ recipe, offModal, modalStatus }: RecipeModalProps) => {
       });
     });
   }, []);
+
+  const getFirebaseData = async () => {
+    const docRef = doc(db, 'favorite_recipes', 'mFABbEYFEanJA1ElRhe7')
+    try {
+      const docSnap = await getDoc(docRef)
+      const data = docSnap.data()
+
+      if(data) {
+        setFavoriteRecipes(data.RCP_NM)
+        setIsFavorite(data.RCP_NM?.findIndex((recipes:string) => recipes === recipe?.RCP_NM) !== -1)
+      }
+
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    getFirebaseData()
+  },[modalStatus])
+
+  const clickFavoriteRecipe = async (recipeName: string) => {
+    console.log('클릭이요', isFavorite)
+    const docRef = doc(db, 'favorite_recipes', 'mFABbEYFEanJA1ElRhe7')
+
+    // 즐겨찾는 레시피 추가
+    if(!isFavorite) {
+    try {
+      const res = await updateDoc(docRef, {
+        RCP_NM: arrayUnion(recipeName)
+      });
+    setIsFavorite(true)
+      console.log(res)
+    } catch(err) {
+      console.log('데이터 저장 err', err)
+    }
+    } else {
+      try {
+        const res = await updateDoc(docRef, {
+          RCP_NM: arrayRemove(recipeName)
+      });
+
+      setIsFavorite(false)
+      } catch(err) {
+        console.log('데이터 삭제 err', err)
+      }
+      
+    }
+  }
+
+  useEffect(() => {
+
+    console.log('isFavorite::', isFavorite)
+  }, [isFavorite])
+
   return (
     <ModalBg modalStatus={modalStatus ? modalStatus : false}>
       <RecipeBg
@@ -109,6 +169,7 @@ const RecipeModal = ({ recipe, offModal, modalStatus }: RecipeModalProps) => {
       >
         <Text fontSize="20px" align="center">
           {recipe?.RCP_NM} 레시피
+          <Favorite onClickHandler={() => clickFavoriteRecipe(recipe?.RCP_NM!)} isFavorite={isFavorite}></Favorite>
         </Text>
         <Text fontSize="16px" align="left" marginTop="30px">
           재료 - {recipe?.RCP_PARTS_DTLS}
