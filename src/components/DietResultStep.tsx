@@ -20,7 +20,7 @@ const FlexColumn = styled.div`
   width: 100%;
   flex-direction: column;
 `;
-const FlexRow = styled.div`
+export const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;

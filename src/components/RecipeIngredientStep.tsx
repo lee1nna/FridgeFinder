@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { UserContext } from "../context/UserContext";
 import { ChangeEvent, useContext, useEffect, useRef } from "react";
 
-const QuestionText = styled.h3`
+export const QuestionText = styled.h3`
   line-height: 25px;
 `;
 const WarningText = styled.h5`
@@ -10,7 +10,7 @@ const WarningText = styled.h5`
   margin: 5px 0 0 0;
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   box-sizing: border-box;
   width: 100%;
   height: 50px;

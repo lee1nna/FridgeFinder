@@ -5,11 +5,12 @@ import RecommendMenu from "./pages/RecommendMenu";
 import FavoriteRecipe from "./pages/FavoriteRecipe";
 import RecommendDiet from "./pages/RecommendDiet";
 import { UserContext, UserInfoType } from "./context/UserContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Loading from "./components/Loading";
 import { LoadingContext, LoadingType } from "./context/LoadingContext";
-import { auth } from "./firebase";
 import { AuthContext, AuthType } from "./context/AuthContext";
+import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp";
 
 function App() {
   const [user, setUser] = useState<AuthType>({
@@ -31,6 +32,8 @@ function App() {
           {loadingStatus.isLoading && <Loading></Loading>}
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
             <Route path="/recommend-menu" element={<RecommendMenu />} />
             <Route path="/recommend-diet" element={<RecommendDiet />} />
             <Route path="/favorite-recipe" element={<FavoriteRecipe />} />

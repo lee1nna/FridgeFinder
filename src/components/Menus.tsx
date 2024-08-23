@@ -62,13 +62,13 @@ const Menus = () => {
           id: 1,
           name: "로그인",
           isOpen: true,
-          url: "/signin",
+          url: "/sign-in",
         },
         {
           id: 2,
           name: "회원가입",
           isOpen: true,
-          url: "/signup",
+          url: "/sign-up",
         },
       ]);
     } else {
