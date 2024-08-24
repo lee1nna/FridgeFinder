@@ -22,11 +22,12 @@ const ModalBg = styled.div<{ modalStatus: undefined | boolean }>`
   ${(props) =>
     props.modalStatus === false &&
     `
-    animation: fadeOut 1s forwards;
+    animation: fadeOut 1s 0.5s forwards;
   `}
   @keyframes fadeOut {
     from {
       opacity: 1;
+      display: block;
     }
     to {
       opacity: 0;
@@ -159,10 +160,7 @@ const RecipeModal = ({ recipe, offModal, modalStatus }: RecipeModalProps) => {
     }
   }
 
-  useEffect(() => {
-
-    console.log('isFavorite::', isFavorite)
-  }, [isFavorite])
+  console.log('modalStatus',modalStatus)
 
   return (
     <ModalBg modalStatus={modalStatus ? modalStatus : false}>
