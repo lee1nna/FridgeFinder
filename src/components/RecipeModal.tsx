@@ -13,6 +13,7 @@ type RecipeModalProps = {
 
 const ModalBg = styled.div<{ modalStatus: undefined | boolean }>`
   position: absolute;
+  overflow: hidden;
   height: 100%;
   width: 100%;
   left: 0;
@@ -27,11 +28,10 @@ const ModalBg = styled.div<{ modalStatus: undefined | boolean }>`
   @keyframes fadeOut {
     from {
       opacity: 1;
-      display: block;
     }
     to {
       opacity: 0;
-      display: none;
+      z-index: -1;
     }
   }
 `;
@@ -62,6 +62,7 @@ const Modal = styled.div<{ animation?: string }>`
     }
     to {
       bottom: -100%;
+      display: none !important;
     }
   }
 `;
@@ -163,7 +164,7 @@ const RecipeModal = ({ recipe, offModal, modalStatus }: RecipeModalProps) => {
   console.log('modalStatus',modalStatus)
 
   return (
-    <ModalBg modalStatus={modalStatus ? modalStatus : false}>
+  <ModalBg modalStatus={modalStatus ? modalStatus : false}>
       <RecipeBg
         modalStatus={modalStatus ? modalStatus : false}
         onClick={() => offModal()}
