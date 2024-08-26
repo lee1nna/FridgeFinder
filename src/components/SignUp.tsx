@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Input, QuestionText } from "./RecipeIngredientStep";
+import { QuestionText } from "./RecipeIngredientStep";
 import Wrapper from "./Wrapper";
 import { StepButton } from "../pages/RecommendMenu";
 import { FlexRow } from "./DietResultStep";
@@ -7,6 +7,7 @@ import { ChangeEvent, useState } from "react";
 import { AuthError, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import Input from "./Input";
 
 const SignUpForm = styled.div`
   margin-top: 50px;
@@ -22,15 +23,10 @@ const Label = styled.div`
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassowrd] = useState("");
+  const [isPwError, setIsPwError] = useState(false)
+  const [isEmailError, setIsEmailError] = useState(false)
   const navigation = useNavigate();
-
-  const changeEmailinput = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const changePasswordinput = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassowrd(e.target.value);
-  };
+  
 
   const signUpWithEmail = () => {
     createUserWithEmailAndPassword(auth, email, password)
@@ -42,8 +38,17 @@ const SignUp = () => {
         navigation("/sign-in");
       })
       .catch((err: AuthError) => {
+        console.log(err)
+        if(err.code === "auth/weak-password") {
+          setIsPwError(true)
+        } else {
+          setIsPwError(false)
+        }
+
         if (err.code === "auth/email-already-in-use") {
-          alert("이미 등록된 이메일입니다. 다른 이메일을 입력해주세요.");
+          setIsEmailError(true)
+        } else {
+          setIsEmailError(false)
         }
       });
   };
@@ -59,7 +64,10 @@ const SignUp = () => {
           <Label>이메일</Label>
           <Input
             value={email}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => changeEmailinput(e)}
+            onChange={(e) => setEmail(e.target.value)}
+            fontSize='16px'
+            isError={isEmailError}
+            errorMsg={"이미 등록된 이메일입니다. 다른 이메일을 입력해주세요."}
           ></Input>
         </InputWrap>
         <InputWrap>
@@ -67,9 +75,10 @@ const SignUp = () => {
           <Input
             value={password}
             type="password"
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              changePasswordinput(e)
-            }
+            onChange={(e) => setPassowrd(e.target.value)}
+            fontSize='16px'
+            isError={isPwError}
+            errorMsg={'비밀번호는 6자 이상이여야 합니다.'}
           ></Input>
         </InputWrap>
       </SignUpForm>

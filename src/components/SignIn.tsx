@@ -6,8 +6,9 @@ import { AuthContext } from "../context/AuthContext";
 import { auth } from "../firebase";
 import { StepButton } from "../pages/RecommendMenu";
 import { FlexRow } from "./DietResultStep";
-import { Input, QuestionText } from "./RecipeIngredientStep";
+import { QuestionText } from "./RecipeIngredientStep";
 import Wrapper from "./Wrapper";
+import Input from "./Input";
 
 const SignUpForm = styled.div`
   margin-top: 50px;
@@ -26,16 +27,8 @@ const SignIn = () => {
   const navigation = useNavigate();
 
   const authContext = useContext(AuthContext)
-  const {setUser} = authContext
-
-  const changeEmailinput = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const changePasswordinput = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassowrd(e.target.value);
-  };
-
+  const {setUser} = authContext;
+  
   const signInWithEmail = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((user) => {
@@ -61,19 +54,25 @@ const SignIn = () => {
       <SignUpForm>
         <InputWrap>
           <Label>이메일</Label>
-          <Input
+          {/* <Input
             value={email}
             onChange={(e: ChangeEvent<HTMLInputElement>) => changeEmailinput(e)}
+          ></Input> */}
+          <Input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            fontSize='16px'
+            isError={false}
           ></Input>
         </InputWrap>
         <InputWrap>
           <Label>비밀번호</Label>
           <Input
             value={password}
-            type="password"
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              changePasswordinput(e)
-            }
+            onChange={(e) => setPassowrd(e.target.value)}
+            fontSize='16px'
+            isError={false}
+            type={'password'}
           ></Input>
         </InputWrap>
       </SignUpForm>
