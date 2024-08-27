@@ -20,6 +20,14 @@ const Label = styled.div`
   margin-bottom: 10px;
   padding: 0 5px;
 `;
+const Text = styled.div`
+  color: #ff6161;
+  position:relative;
+  top: 30px;
+  text-align: center;
+  padding: 0 5px;
+  font-size: 14px;
+`;
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -28,7 +36,13 @@ const SignIn = () => {
 
   const authContext = useContext(AuthContext)
   const {setUser} = authContext;
-  
+
+  const [isPwError, setIsPwError] = useState(false)
+  const [isEmailError, setIsEmailError] = useState(false)
+  const [pwErrorMsg, setPwErrorMsg] = useState('')
+  const [emailErrorMsg, setEmailErrorMsg] = useState('')
+  const [commonErrorMsg, setCommonErrorMsg] = useState('')
+
   const signInWithEmail = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((user) => {
@@ -37,12 +51,38 @@ const SignIn = () => {
         navigation("/");
       })
       .catch((err: AuthError) => {
-        console.log('로그인 실패:', err)
-      
-        if (err.code === "auth/invalid-credential") {
-          alert("등록된 회원 정보가 아닙니다. 다시 입력해주세요.");
-        } else if(err.code === "auth/invalid-email") {
-          alert("등록된 이메일이 아닙니다. 다시 입력해주세요.")
+        console.log(err.code)
+        switch (err.code) {
+          case "auth/invalid-credential" || "auth/user-not-found" || "auth/wrong-password":
+            setIsPwError(false)
+            setIsEmailError(false)
+            setCommonErrorMsg("이메일 혹은 비밀번호가 일치하지 않습니다.")
+            break;
+          case "auth/network-request-failed":
+            setIsPwError(false)
+            setIsEmailError(false)
+            setCommonErrorMsg("네트워크 연결에 실패 하였습니다.")
+            break;
+          case "auth/invalid-email":
+            setIsPwError(false)
+            setIsEmailError(true)
+            setEmailErrorMsg("잘못된 이메일 형식입니다.")
+            break;
+          case "auth/internal-error":
+            setIsPwError(false)
+            setIsEmailError(false)
+            setCommonErrorMsg("잘못된 요청입니다.")
+            break;
+          case "auth/too-many-requests":
+            setIsPwError(false)
+            setIsEmailError(false)
+            setCommonErrorMsg("잠시 후 다시 시도해주세요.")
+          break;
+          default:
+            setIsPwError(false)
+            setIsEmailError(false)
+            setCommonErrorMsg("로그인에 실패 하였습니다.")
+            break;
         }
       });
   };
@@ -54,15 +94,12 @@ const SignIn = () => {
       <SignUpForm>
         <InputWrap>
           <Label>이메일</Label>
-          {/* <Input
-            value={email}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => changeEmailinput(e)}
-          ></Input> */}
           <Input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             fontSize='16px'
-            isError={false}
+            isError={isEmailError}
+            errorMsg={emailErrorMsg}
           ></Input>
         </InputWrap>
         <InputWrap>
@@ -71,10 +108,14 @@ const SignIn = () => {
             value={password}
             onChange={(e) => setPassowrd(e.target.value)}
             fontSize='16px'
-            isError={false}
+            isError={isPwError}
+            errorMsg={pwErrorMsg}
             type={'password'}
           ></Input>
         </InputWrap>
+        {
+          commonErrorMsg && <Text>{commonErrorMsg}</Text>
+        }
       </SignUpForm>
       <FlexRow>
         <StepButton
