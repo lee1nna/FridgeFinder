@@ -9,10 +9,13 @@ import Wrapper from "../components/Wrapper";
 import { LoadingContext } from "../context/LoadingContext";
 import { auth, db } from "../firebase";
 import { RecipeRes } from "../type/recipe";
+import { StepButton, StyledLink } from "./RecommendMenu";
 
 const RecipeUl = styled.ul`
   margin: 0;
   padding: 0;
+  max-height: calc(100% - 120px);
+  overflow-y: auto;
 `
 
 const RecipeLi = styled.li`
@@ -65,7 +68,6 @@ const FavoriteRecipe = () => {
     try {
       const res = await axios.get(url);
       setRecipe(res.data.COOKRCP01.row[0])
-
       setIsRecipe(true)
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
@@ -94,6 +96,13 @@ const FavoriteRecipe = () => {
           recipe={recipe}
         />
       )}
+      {
+          <StepButton backgroundColor="#ff6f6f" style={{position: 'absolute', bottom:'30px'}}>
+            <StyledLink to={"/"}>
+              이전
+            </StyledLink>
+          </StepButton>
+      }
   </Wrapper>;
 };
 
