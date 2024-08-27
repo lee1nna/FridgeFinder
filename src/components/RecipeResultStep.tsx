@@ -11,21 +11,21 @@ import RecipeModal from "./RecipeModal";
 const Flex = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const Text = styled.h4``;
 
 const RecommendMenu = styled.h2`
   text-align: center;
-  margin-top: 50px;
+  margin-top: 20px;
 `;
 
 const FoodImg = styled.img`
   box-sizing: border-box;
   position: relative;
-  left: calc(50% - 150px);
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   padding: 20px;
   object-fit: cover;
   border-radius: 50%;
@@ -44,7 +44,6 @@ export const Button = styled.button`
   margin-top: 25px;
   font-size: 18px;
   position: relative;
-  left: calc(50% - 54px);
 `;
 
 const RecipeResultStep = () => {
