@@ -36,3 +36,4 @@ npm run start
 ## 📚 이슈 기록
 
 - [react-router 사용해 페이지 라우터 적용하기](https://hann-nnah.tistory.com/15)
+- [useRef 사용시 The expected type comes from property 'ref' which is declared here on type 에러 (+ useRef 3가지 정의)](https://hann-nnah.tistory.com/17)
